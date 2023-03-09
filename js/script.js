@@ -103,21 +103,23 @@ const renderData = (data) => {
     });
 }
 
+// Добавление в LS
 const addToLs = (item) => {
-    let dataFromLS = localStorage.getItem('products');
+    let dataFromLS = localStorage.getItem('cart');
 
     let arr = [];
     if (dataFromLS) {
         arr = JSON.parse(dataFromLS);
     }
     arr.push(item);
-    localStorage.setItem('products', JSON.stringify(arr));
+    localStorage.setItem('cart', JSON.stringify(arr));
 }
 
 
 const rowData = getData();
 const productsData = transformData(rowData); 
-renderData(productsData);
+localStorage.setItem('productsData', JSON.stringify(productsData));
+renderData(JSON.parse(localStorage.getItem('productsData')));
 
 document.querySelector('.product-top .product-one').addEventListener('click', (e) => {
     e.preventDefault();
