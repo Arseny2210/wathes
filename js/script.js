@@ -69,7 +69,7 @@ const renderData = (data) => {
                 src=" images/${elem.img}" alt=""/></a>
             <div class="product-bottom">
                 <h3>${elem.title}</h3>
-                <h4><a class="item_add" href="#"><i></i></a> <span class=" item_price">${elem.price}</span></h4>
+                <h4><a class="item_add" href=""><i></i></a> <span class=" item_price">${elem.price}</span></h4>
             </div>
             ${(elem.old_price != 0) ?
                 `<div class="srch">
@@ -103,8 +103,31 @@ const renderData = (data) => {
     });
 }
 
+const addToLs = (item) => {
+    let dataFromLS = localStorage.getItem('products');
+
+    let arr = [];
+    if (dataFromLS) {
+        arr = JSON.parse(dataFromLS);
+    }
+    arr.push(item);
+    localStorage.setItem('products', JSON.stringify(arr));
+}
 
 
 const rowData = getData();
 const productsData = transformData(rowData); 
 renderData(productsData);
+
+document.querySelector('.product-top .product-one').addEventListener('click', (e) => {
+    e.preventDefault();
+    // console.log(e.target.tagName);
+    // if (e.target.classList.contains('icon')) {
+    //     console.log(e.target);
+    // }
+
+    if (e.target.matches('.item_add i')) {
+        const id = e.target.closest('.product-left').dataset.id;
+        addToLs(id);
+    }
+})
