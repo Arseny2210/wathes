@@ -117,8 +117,10 @@ const addToLs = (item) => {
 
 
 const rowData = getData();
-const productsData = transformData(rowData); 
+const productsData = transformData(rowData);
+
 localStorage.setItem('productsData', JSON.stringify(productsData));
+
 renderData(JSON.parse(localStorage.getItem('productsData')));
 
 document.querySelector('.product-top .product-one').addEventListener('click', (e) => {
