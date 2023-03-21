@@ -115,7 +115,6 @@ const addToLs = (item) => {
     localStorage.setItem('cart', JSON.stringify(arr));
 }
 
-
 const rowData = getData();
 const productsData = transformData(rowData);
 
@@ -133,5 +132,10 @@ document.querySelector('.product-top .product-one').addEventListener('click', (e
     if (e.target.matches('.item_add i')) {
         const id = e.target.closest('.product-left').dataset.id;
         addToLs(id);
+        doProductsAction(
+            JSON.parse(localStorage.getItem('cart')),
+            JSON.parse(localStorage.getItem('productsData')),
+            'calcSum'
+        );
     }
 })
