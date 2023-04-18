@@ -130,17 +130,30 @@ const renderData = (data) => {
 // 
 
 // Добавление в LS
-const addToLS = (item) => {
+const addToLS = (productId) => {
 
-    let dataFromLS = localStorage.getItem('cart'); // null || ''
+    let cartFromLS = localStorage.getItem('carts'); // null || ''
+    
+    const userId = localStorage.getItem('authUser');
+
 
     let arr = []; 
-    if (dataFromLS) {
-        arr = JSON.parse(dataFromLS); 
-    } 
-    arr.push(item);
-    localStorage.setItem('cart',JSON.stringify(arr));
-
+    if (cartFromLS) {
+        arr = JSON.parse(cartFromLS); 
+        const objInd = arr.findIndex((obj)=> {
+            return obj.userId == userId;
+        })
+        if (objInd != -1) {
+            arr[objInd].data.push(productId);
+        } else {
+            const obj = {userId, data: [productId]}
+            arr.push(obj);
+        }
+    } else {
+        const obj = {userId, data: [productId]}
+        arr.push(obj);
+    }
+    localStorage.setItem('carts',JSON.stringify(arr));
 }
 
 
@@ -155,8 +168,14 @@ document.querySelector('.product-top .product-one').addEventListener('click', (e
     if (e.target.matches('.item_add i')) {
         const id = e.target.closest('.product-left').dataset.id;
         addToLS(id);
+
+        const arr = JSON.parse(localStorage.getItem('carts'));
+        const objInd = arr.findIndex((obj)=> {
+            return obj.userId == localStorage.getItem('authUser')
+        })
+        
         doProductsAction( 
-            JSON.parse(localStorage.getItem('cart')), 
+            arr[objInd].data,
             JSON.parse(localStorage.getItem('productsData')), 
             'calcSum');
     } 
