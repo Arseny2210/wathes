@@ -99,10 +99,15 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	<!-- <script src="js/cart.js"></script> -->
 
 	<script>
+		const userId = localStorage.getItem('authUser');
 		const products = JSON.parse(localStorage.getItem('productsData'));
-		const cart = JSON.parse(localStorage.getItem('cart'));
-		calcCardCount();
-		doProductsAction(cart, products, 'renderCart')
+		const arr = JSON.parse(localStorage.getItem('carts'));
+		const objInd = arr.findIndex((obj)=> {
+            return obj.userId == userId;
+        });
+		const cart = arr[objInd].data;
+		calcCardCount(cart);
+		doProductsAction(userId, cart, products, 'renderCart')
 	</script>
 </body>
 </html>
